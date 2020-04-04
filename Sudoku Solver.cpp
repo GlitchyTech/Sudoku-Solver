@@ -1,21 +1,22 @@
 #include <iostream>
+
 #define EMPTY 0
 #define N 9
 
-
 struct Sudoku
 {
+    
 Sudoku() {
+    std::cout << "Use digits 1 - 9, as empty character use 0.\nEnter your sudoku : \n" << std::endl;
     for (size_t i = 0; i < N; ++i)
         for (size_t j = 0; j < N; ++j)
             std::cin >> field[i][j];
 }
 
-
-bool empty_spots(int & row, int & col) {
+bool have_empty_spots(int & row, int & col) {
     for (row = 0; row < N; ++row)
         for (col = 0; col < N; ++col)
-            if (this->field[row][col] == EMPTY)
+            if (field[row][col] == EMPTY)
                 return true;
     return false;
 }
@@ -37,7 +38,7 @@ bool is_member_uniq(int rowIndex = 0, int colIndex = 0, int value = 0) {
 bool sudoku_solver()
 {
     int row, col;
-    if (!empty_spots(row, col))
+    if (!have_empty_spots(row, col))
         return true;
     for (int num = 1; num <= N; ++num)
         if (is_member_uniq(row, col, num)){
@@ -59,41 +60,35 @@ void output() {
 }
 
 
-int field[9][9] = {};
+int field[N][N] = {};
 };
 
 
 int main()
 {
-    int number = 0;
-    std::cout << "Print Sudoku field : \n" << std::endl;
-
-    for (size_t i = 0; i < 3; ++i)
-        for (size_t j = 0; j < N * N; ++j)
-            std::cin >> number;
+    // Constructor fills sudoku
     Sudoku sudoku;
-
 
     for (int i = 0; i < N; ++i)
         for (int j = 0; j < N; ++j)
             if (sudoku.field[i][j] != EMPTY)
                 if (!sudoku.is_member_uniq(i, j, sudoku.field[i][j])){
-                    std::cout << "NO";
+                    std::cout << "Cannot be solved";
                     return 0;
                 }
 
 
-    int a = 0;
-    int b = 0;
-    if (!sudoku.empty_spots(a, b)){
+    if (!sudoku.sudoku_solver()) {
+        std::cout << "Cannot be solved";
+        return 0;
+    }
+    else {
+        std::cout << "\nSolved Sudoku : \n\n";
         sudoku.output();
-        return 0;
     }
-    else if (!sudoku.sudoku_solver()) {
-        std::cout << "NO";
-        return 0;
-    }
-    sudoku.output();
-    system("pause");
+    
+    std::cin.get();
+    std::cin.get();
+    
     return 0;
 }
