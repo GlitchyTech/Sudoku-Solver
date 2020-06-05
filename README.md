@@ -1,2 +1,2 @@
 # Sudoku-Solver
-Just solves sudoku if it possible.
+Just solves sudoku if it's possible.
